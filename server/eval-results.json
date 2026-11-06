@@ -1,0 +1,322 @@
+{
+  "generated": {
+    "notes": 400,
+    "metrics": {
+      "Symptoms (detection)": {
+        "precision": 1,
+        "recall": 0.9842657342657343,
+        "f1": 0.9920704845814978,
+        "tp": 563,
+        "fp": 0,
+        "fn": 9
+      },
+      "Diagnoses (ICD-10 code)": {
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "tp": 624,
+        "fp": 0,
+        "fn": 0
+      },
+      "Diagnoses (code + certainty)": {
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "tp": 624,
+        "fp": 0,
+        "fn": 0
+      },
+      "Medications (detection)": {
+        "precision": 0.9986320109439124,
+        "recall": 0.9986320109439124,
+        "f1": 0.9986320109439124,
+        "tp": 730,
+        "fp": 1,
+        "fn": 1
+      },
+      "Lab values": {
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "tp": 285,
+        "fp": 0,
+        "fn": 0
+      },
+      "Vital signs": {
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "tp": 446,
+        "fp": 0,
+        "fn": 0
+      }
+    },
+    "accuracies": {
+      "Negation (matched symptoms)": 1,
+      "Medication dose": 1,
+      "Medication frequency": 1,
+      "Medication action": 1,
+      "Follow-up date": 1
+    },
+    "errors": [
+      {
+        "type": "missed medication",
+        "term": "amoxicillin-clavulanate",
+        "text": "46F.\nPresents with cough and fever x 6/7.\nExam: Temp 101.3F, SpO2 97%.\nTLC 10109.\nDx: chest infection.\nAdv: Tab amoxicillin claavulanate 625 mg 1-0-1 x 5 days; Tab. Calpol 650 mg as needed.\nReview in 5 days."
+      },
+      {
+        "type": "extra medication",
+        "term": "amoxicillin (amoxicillin)",
+        "text": "46F.\nPresents with cough and fever x 6/7.\nExam: Temp 101.3F, SpO2 97%.\nTLC 10109.\nDx: chest infection.\nAdv: Tab amoxicillin claavulanate 625 mg 1-0-1 x 5 days; Tab. Calpol 650 mg as needed.\nReview in 5 days."
+      }
+    ]
+  },
+  "edge": {
+    "notes": 20,
+    "metrics": {
+      "Symptoms (detection)": {
+        "precision": 1,
+        "recall": 0.9545454545454546,
+        "f1": 0.9767441860465117,
+        "tp": 42,
+        "fp": 0,
+        "fn": 2
+      },
+      "Diagnoses (ICD-10 code)": {
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "tp": 25,
+        "fp": 0,
+        "fn": 0
+      },
+      "Diagnoses (code + certainty)": {
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "tp": 25,
+        "fp": 0,
+        "fn": 0
+      },
+      "Medications (detection)": {
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "tp": 34,
+        "fp": 0,
+        "fn": 0
+      },
+      "Lab values": {
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "tp": 7,
+        "fp": 0,
+        "fn": 0
+      },
+      "Vital signs": {
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "tp": 4,
+        "fp": 0,
+        "fn": 0
+      }
+    },
+    "accuracies": {
+      "Negation (matched symptoms)": 1,
+      "Medication dose": 1,
+      "Medication frequency": 1,
+      "Medication action": 1,
+      "Follow-up date": 1
+    },
+    "errors": []
+  },
+  "blind": {
+    "notes": 12,
+    "metrics": {
+      "Symptoms (detection)": {
+        "precision": 1,
+        "recall": 0.9473684210526315,
+        "f1": 0.972972972972973,
+        "tp": 18,
+        "fp": 0,
+        "fn": 1
+      },
+      "Diagnoses (ICD-10 code)": {
+        "precision": 1,
+        "recall": 0.9230769230769231,
+        "f1": 0.9600000000000001,
+        "tp": 12,
+        "fp": 0,
+        "fn": 1
+      },
+      "Diagnoses (code + certainty)": {
+        "precision": 0.9166666666666666,
+        "recall": 0.8461538461538461,
+        "f1": 0.8799999999999999,
+        "tp": 11,
+        "fp": 1,
+        "fn": 2
+      },
+      "Medications (detection)": {
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "tp": 20,
+        "fp": 0,
+        "fn": 0
+      },
+      "Lab values": {
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "tp": 5,
+        "fp": 0,
+        "fn": 0
+      },
+      "Vital signs": {
+        "precision": 1,
+        "recall": 0.75,
+        "f1": 0.8571428571428571,
+        "tp": 3,
+        "fp": 0,
+        "fn": 1
+      }
+    },
+    "accuracies": {
+      "Negation (matched symptoms)": 1,
+      "Medication dose": 0.95,
+      "Medication frequency": 1,
+      "Medication action": 1,
+      "Follow-up date": 0.9166666666666666
+    },
+    "errors": [
+      {
+        "type": "missed diagnosis",
+        "term": "H66.9 confirmed",
+        "text": "Child brought by mother - ear pain since 2 days, fever 101F. No discharge. R TM bulging. AOM. Syp Augmentin 228 mg BD x 7d, Syp Calpol SOS. Review in 5 days."
+      },
+      {
+        "type": "missed diagnosis",
+        "term": "N18.9 provisional",
+        "text": "Swelling of both feet for 10 days. BP 150/90. Creatinine 2.4. CKD stage 3? Stop Brufen (was taking for knee pain). Tab Lasix 40 mg OD. USG KUB advised. Review with reports in 1 week."
+      },
+      {
+        "type": "extra diagnosis",
+        "term": "N18.9 confirmed (CKD)",
+        "text": "Swelling of both feet for 10 days. BP 150/90. Creatinine 2.4. CKD stage 3? Stop Brufen (was taking for knee pain). Tab Lasix 40 mg OD. USG KUB advised. Review with reports in 1 week."
+      },
+      {
+        "type": "dose",
+        "term": "tramadol: got 1, want null",
+        "text": "Fall at home, wrist pain. X-ray normal. Soft tissue injury. Tab Ultracet 1 tab SOS, crepe bandage. If pain persists review after 1 week."
+      },
+      {
+        "type": "follow-up",
+        "term": "got none, want 2026-10-03",
+        "text": "Redness, warmth and swelling left leg x 3 days with fever. Cellulitis L leg. Cap Cefuroxime 500 BD x 7 days, Tab PCM 500 TDS. Limb elevation. Review after 48 hrs."
+      }
+    ]
+  },
+  "intent": {
+    "correct": 70,
+    "total": 70,
+    "slotCorrect": 47,
+    "slotTotal": 47,
+    "cv": 0.7569721115537849,
+    "errors": []
+  },
+  "search": [
+    {
+      "q": "shortness of breath",
+      "semantic": 1,
+      "keyword": 0.4,
+      "k": 5
+    },
+    {
+      "q": "loose stools and vomiting",
+      "semantic": 0.9,
+      "keyword": 0.7,
+      "k": 10
+    },
+    {
+      "q": "pain while passing urine",
+      "semantic": 0,
+      "keyword": 0,
+      "k": 2
+    },
+    {
+      "q": "feeling tired and weak",
+      "semantic": 0.2,
+      "keyword": 0,
+      "k": 10
+    },
+    {
+      "q": "high temperature with body pains",
+      "semantic": 0.9,
+      "keyword": 0.5,
+      "k": 10
+    },
+    {
+      "q": "acid reflux burning in chest",
+      "semantic": 0.7,
+      "keyword": 0,
+      "k": 10
+    },
+    {
+      "q": "sugar not controlled on glycomet",
+      "semantic": 1,
+      "keyword": 1,
+      "k": 10
+    },
+    {
+      "q": "blood pressure tablets telmisartan",
+      "semantic": 1,
+      "keyword": 0.7,
+      "k": 10
+    },
+    {
+      "q": "thyroid medicine dose",
+      "semantic": 1,
+      "keyword": 0,
+      "k": 10
+    },
+    {
+      "q": "itchy skin rash fungal",
+      "semantic": 1,
+      "keyword": 0.6,
+      "k": 5
+    },
+    {
+      "q": "running nose and sneezing",
+      "semantic": 1,
+      "keyword": 1,
+      "k": 10
+    },
+    {
+      "q": "giddiness",
+      "semantic": 1,
+      "keyword": 0.6666666666666666,
+      "k": 3
+    },
+    {
+      "q": "swelling of feet after a blood pressure tablet",
+      "semantic": 0,
+      "keyword": 0,
+      "k": 2
+    },
+    {
+      "q": "rash after starting an antibiotic",
+      "semantic": 0,
+      "keyword": 0,
+      "k": 1
+    }
+  ],
+  "safety": {
+    "blocked": 14,
+    "attacks": 14,
+    "builderOk": 7,
+    "builderTotal": 7
+  }
+}

@@ -1,0 +1,361 @@
+{
+  "A": {
+    "Generated (400, unseen seed)": {
+      "rules": {
+        "symptoms": {
+          "precision": 1,
+          "recall": 0.9842657342657343,
+          "f1": 0.9920704845814978,
+          "tp": 563,
+          "fp": 0,
+          "fn": 9
+        },
+        "diagnoses": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "tp": 624,
+          "fp": 0,
+          "fn": 0
+        },
+        "medications": {
+          "precision": 0.9986320109439124,
+          "recall": 0.9986320109439124,
+          "f1": 0.9986320109439124,
+          "tp": 730,
+          "fp": 1,
+          "fn": 1
+        },
+        "unmappedPerNote": 0
+      },
+      "rulesMl": {
+        "symptoms": {
+          "precision": 1,
+          "recall": 0.9947552447552448,
+          "f1": 0.9973707274320771,
+          "tp": 569,
+          "fp": 0,
+          "fn": 3
+        },
+        "diagnoses": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "tp": 624,
+          "fp": 0,
+          "fn": 0
+        },
+        "medications": {
+          "precision": 0.9986320109439124,
+          "recall": 0.9986320109439124,
+          "f1": 0.9986320109439124,
+          "tp": 730,
+          "fp": 1,
+          "fn": 1
+        },
+        "unmappedPerNote": 0.0075
+      }
+    },
+    "Edge cases (hand-written)": {
+      "rules": {
+        "symptoms": {
+          "precision": 1,
+          "recall": 0.9545454545454546,
+          "f1": 0.9767441860465117,
+          "tp": 42,
+          "fp": 0,
+          "fn": 2
+        },
+        "diagnoses": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "tp": 25,
+          "fp": 0,
+          "fn": 0
+        },
+        "medications": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "tp": 34,
+          "fp": 0,
+          "fn": 0
+        },
+        "unmappedPerNote": 0
+      },
+      "rulesMl": {
+        "symptoms": {
+          "precision": 1,
+          "recall": 0.9545454545454546,
+          "f1": 0.9767441860465117,
+          "tp": 42,
+          "fp": 0,
+          "fn": 2
+        },
+        "diagnoses": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "tp": 25,
+          "fp": 0,
+          "fn": 0
+        },
+        "medications": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "tp": 34,
+          "fp": 0,
+          "fn": 0
+        },
+        "unmappedPerNote": 0.25
+      }
+    },
+    "Blind set (hand-written)": {
+      "rules": {
+        "symptoms": {
+          "precision": 1,
+          "recall": 0.9473684210526315,
+          "f1": 0.972972972972973,
+          "tp": 18,
+          "fp": 0,
+          "fn": 1
+        },
+        "diagnoses": {
+          "precision": 1,
+          "recall": 0.9230769230769231,
+          "f1": 0.9600000000000001,
+          "tp": 12,
+          "fp": 0,
+          "fn": 1
+        },
+        "medications": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "tp": 20,
+          "fp": 0,
+          "fn": 0
+        },
+        "unmappedPerNote": 0
+      },
+      "rulesMl": {
+        "symptoms": {
+          "precision": 1,
+          "recall": 0.9473684210526315,
+          "f1": 0.972972972972973,
+          "tp": 18,
+          "fp": 0,
+          "fn": 1
+        },
+        "diagnoses": {
+          "precision": 1,
+          "recall": 0.9230769230769231,
+          "f1": 0.9600000000000001,
+          "tp": 12,
+          "fp": 0,
+          "fn": 1
+        },
+        "medications": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "tp": 20,
+          "fp": 0,
+          "fn": 0
+        },
+        "unmappedPerNote": 0.9166666666666666
+      }
+    }
+  },
+  "B": {
+    "heldOutBrands": 53,
+    "testNotes": 80,
+    "mentions": 85,
+    "rulesFound": 8,
+    "mlFound": 78,
+    "trainNotes": 1206,
+    "mlMappedByFuzzy": 8,
+    "scoreReduced": {
+      "rules": {
+        "symptoms": {
+          "precision": 1,
+          "recall": 0.9842657342657343,
+          "f1": 0.9920704845814978,
+          "tp": 563,
+          "fp": 0,
+          "fn": 9
+        },
+        "diagnoses": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "tp": 624,
+          "fp": 0,
+          "fn": 0
+        },
+        "medications": {
+          "precision": 0.998468606431853,
+          "recall": 0.8919288645690835,
+          "f1": 0.9421965317919075,
+          "tp": 652,
+          "fp": 1,
+          "fn": 79
+        },
+        "unmappedPerNote": 0
+      },
+      "rulesMl": {
+        "symptoms": {
+          "precision": 1,
+          "recall": 0.9947552447552448,
+          "f1": 0.9973707274320771,
+          "tp": 569,
+          "fp": 0,
+          "fn": 3
+        },
+        "diagnoses": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "tp": 624,
+          "fp": 0,
+          "fn": 0
+        },
+        "medications": {
+          "precision": 0.998468606431853,
+          "recall": 0.8919288645690835,
+          "f1": 0.9421965317919075,
+          "tp": 652,
+          "fp": 1,
+          "fn": 79
+        },
+        "unmappedPerNote": 0.1875
+      }
+    }
+  },
+  "C": {
+    "rules": {
+      "rows": [
+        {
+          "batch": 1,
+          "recall": 0.9263157894736842,
+          "learned": 7
+        },
+        {
+          "batch": 2,
+          "recall": 0.9506172839506173,
+          "learned": 12
+        },
+        {
+          "batch": 3,
+          "recall": 0.9555555555555556,
+          "learned": 16
+        },
+        {
+          "batch": 4,
+          "recall": 1,
+          "learned": 16
+        },
+        {
+          "batch": 5,
+          "recall": 0.9583333333333334,
+          "learned": 18
+        },
+        {
+          "batch": 6,
+          "recall": 0.9879518072289156,
+          "learned": 19
+        },
+        {
+          "batch": 7,
+          "recall": 1,
+          "learned": 20
+        },
+        {
+          "batch": 8,
+          "recall": 0.9897959183673469,
+          "learned": 20
+        }
+      ],
+      "suggested": 0,
+      "manual": 20
+    },
+    "rulesMl": {
+      "rows": [
+        {
+          "batch": 1,
+          "recall": 0.9263157894736842,
+          "learned": 7
+        },
+        {
+          "batch": 2,
+          "recall": 0.9506172839506173,
+          "learned": 12
+        },
+        {
+          "batch": 3,
+          "recall": 0.9555555555555556,
+          "learned": 16
+        },
+        {
+          "batch": 4,
+          "recall": 1,
+          "learned": 16
+        },
+        {
+          "batch": 5,
+          "recall": 0.9583333333333334,
+          "learned": 18
+        },
+        {
+          "batch": 6,
+          "recall": 0.9879518072289156,
+          "learned": 19
+        },
+        {
+          "batch": 7,
+          "recall": 1,
+          "learned": 20
+        },
+        {
+          "batch": 8,
+          "recall": 0.9897959183673469,
+          "learned": 20
+        }
+      ],
+      "suggested": 18,
+      "manual": 2
+    }
+  },
+  "D": {
+    "hand": {
+      "autoAccepted": 158,
+      "autoKept": 156,
+      "flagged": 15,
+      "flaggedKept": 13,
+      "errorsTotal": 4,
+      "errorsFlagged": 2
+    },
+    "autoAccepted": 2606,
+    "autoKept": 2606,
+    "flagged": 60,
+    "flaggedKept": 48,
+    "notesNoCheck": 355,
+    "errorsTotal": 12,
+    "errorsFlagged": 12,
+    "notes": 400,
+    "autoShare": 0.9774943735933983,
+    "autoPrecision": 1,
+    "flaggedPrecision": 0.8,
+    "errorRecall": 1
+  },
+  "E": {
+    "unanswerable": 10,
+    "declined": 10,
+    "answerable": 53,
+    "falselyDeclined": 0,
+    "errors": []
+  },
+  "llm": "not run (pass --llm with Ollama running)"
+}

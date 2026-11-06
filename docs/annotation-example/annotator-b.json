@@ -1,0 +1,254 @@
+[
+ {
+  "id": "b1",
+  "visitDate": "2026-10-01",
+  "text": "52 yr old male, diabetic x 8 yrs. Burning feet at night, numbness both soles. FBS 186 mg/dl, HbA1c 8.6%. Diabetic neuropathy. Add Tab Pregeb 75 mg HS. Increase metformin to 1000 BD. Review after 1 month with FBS/PPBS.",
+  "items": [
+   {
+    "type": "diagnosis",
+    "start": 16,
+    "end": 24,
+    "concept": "E11",
+    "certainty": "confirmed"
+   },
+   {
+    "type": "diagnosis",
+    "start": 105,
+    "end": 124,
+    "concept": "G62.9",
+    "certainty": "confirmed"
+   },
+   {
+    "type": "medication",
+    "start": 134,
+    "end": 140,
+    "concept": "pregabalin",
+    "action": "start"
+   },
+   {
+    "type": "medication",
+    "start": 160,
+    "end": 169,
+    "concept": "metformin",
+    "action": "increase"
+   },
+   {
+    "type": "symptom",
+    "start": 34,
+    "end": 46,
+    "concept": "burning feet",
+    "negated": false
+   }
+  ]
+ },
+ {
+  "id": "b2",
+  "visitDate": "2026-10-01",
+  "text": "Child brought by mother - ear pain since 2 days, fever 101F. No discharge. R TM bulging. AOM. Syp Augmentin 228 mg BD x 7d, Syp Calpol SOS. Review in 5 days.",
+  "items": [
+   {
+    "type": "symptom",
+    "start": 26,
+    "end": 34,
+    "concept": "ear pain",
+    "negated": false
+   },
+   {
+    "type": "symptom",
+    "start": 49,
+    "end": 54,
+    "concept": "fever",
+    "negated": false
+   },
+   {
+    "type": "medication",
+    "start": 98,
+    "end": 107,
+    "concept": "amoxicillin-clavulanate",
+    "action": "prescribe"
+   },
+   {
+    "type": "medication",
+    "start": 128,
+    "end": 134,
+    "concept": "paracetamol",
+    "action": "prescribe"
+   }
+  ]
+ },
+ {
+  "id": "b3",
+  "visitDate": "2026-10-01",
+  "text": "Palpitations and weight loss 3 months, heat intolerance. TSH <0.01. Thyrotoxicosis. Start Tab Ciplar 20 mg BD. Refer endocrinology. f/u 2 wks.",
+  "items": [
+   {
+    "type": "symptom",
+    "start": 0,
+    "end": 12,
+    "concept": "palpitations",
+    "negated": false
+   },
+   {
+    "type": "symptom",
+    "start": 17,
+    "end": 28,
+    "concept": "weight loss",
+    "negated": false
+   },
+   {
+    "type": "diagnosis",
+    "start": 68,
+    "end": 82,
+    "concept": "E05.9",
+    "certainty": "confirmed"
+   },
+   {
+    "type": "medication",
+    "start": 94,
+    "end": 100,
+    "concept": "propranolol",
+    "action": "prescribe"
+   }
+  ]
+ },
+ {
+  "id": "b4",
+  "visitDate": "2026-10-01",
+  "text": "Pt is a k/c/o COPD, smoker. Increased breathlessness & cough with sputum x 1 week. No chest pain. SpO2 91% RA. Acute exacerbation of COPD. Tab Azee 500 OD x 5 days, Tab Wysolone 40 mg OD x 5 days, continue Foracort. Review after 3 days, earlier if worse.",
+  "items": [
+   {
+    "type": "symptom",
+    "start": 38,
+    "end": 52,
+    "concept": "breathlessness",
+    "negated": false
+   },
+   {
+    "type": "symptom",
+    "start": 55,
+    "end": 60,
+    "concept": "cough",
+    "negated": false
+   },
+   {
+    "type": "symptom",
+    "start": 86,
+    "end": 96,
+    "concept": "chest pain",
+    "negated": true
+   },
+   {
+    "type": "diagnosis",
+    "start": 14,
+    "end": 18,
+    "concept": "J44.9",
+    "certainty": "confirmed"
+   },
+   {
+    "type": "diagnosis",
+    "start": 133,
+    "end": 137,
+    "concept": "J44.9",
+    "certainty": "confirmed"
+   },
+   {
+    "type": "medication",
+    "start": 143,
+    "end": 147,
+    "concept": "azithromycin",
+    "action": "prescribe"
+   },
+   {
+    "type": "medication",
+    "start": 169,
+    "end": 177,
+    "concept": "prednisolone",
+    "action": "prescribe"
+   },
+   {
+    "type": "medication",
+    "start": 206,
+    "end": 214,
+    "concept": "budesonide-formoterol",
+    "action": "continue"
+   }
+  ]
+ },
+ {
+  "id": "b5",
+  "visitDate": "2026-10-01",
+  "text": "Swelling of both feet for 10 days. BP 150/90. Creatinine 2.4. CKD stage 3? Stop Brufen (was taking for knee pain). Tab Lasix 40 mg OD. USG KUB advised. Review with reports in 1 week.",
+  "items": [
+   {
+    "type": "symptom",
+    "start": 103,
+    "end": 112,
+    "concept": "knee pain",
+    "negated": false
+   },
+   {
+    "type": "diagnosis",
+    "start": 62,
+    "end": 65,
+    "concept": "N18.9",
+    "certainty": "confirmed"
+   },
+   {
+    "type": "medication",
+    "start": 80,
+    "end": 86,
+    "concept": "ibuprofen",
+    "action": "stop"
+   },
+   {
+    "type": "medication",
+    "start": 119,
+    "end": 124,
+    "concept": "furosemide",
+    "action": "prescribe"
+   }
+  ]
+ },
+ {
+  "id": "b6",
+  "visitDate": "2026-10-01",
+  "text": "Sore throat, odynophagia, fever x 2 days. Tonsils enlarged with exudates. Acute tonsillitis. Tab Amoxicillin 500 mg TDS x 5 days, Dolo 650 SOS, warm saline gargles. No review needed unless symptoms persist.",
+  "items": [
+   {
+    "type": "symptom",
+    "start": 0,
+    "end": 11,
+    "concept": "sore throat",
+    "negated": false
+   },
+   {
+    "type": "symptom",
+    "start": 26,
+    "end": 31,
+    "concept": "fever",
+    "negated": false
+   },
+   {
+    "type": "diagnosis",
+    "start": 74,
+    "end": 91,
+    "concept": "J03.9",
+    "certainty": "confirmed"
+   },
+   {
+    "type": "medication",
+    "start": 97,
+    "end": 108,
+    "concept": "amoxicillin",
+    "action": "prescribe"
+   },
+   {
+    "type": "medication",
+    "start": 130,
+    "end": 134,
+    "concept": "paracetamol",
+    "action": "prescribe"
+   }
+  ]
+ }
+]
