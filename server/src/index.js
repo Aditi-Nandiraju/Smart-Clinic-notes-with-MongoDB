@@ -1,133 +1,89 @@
-// Mongoose models. Collection-level $jsonSchema validators are applied in db.js
-// so the database itself rejects malformed documents, not just the app.
+// API entry point: connects to MongoDB, loads the local models, then serves the
+// REST API, Socket.IO live updates and (after `npm run build`) the client app.
+import http from 'node:http';
+import path from 'node:path';
+import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import express from 'express';
+import cors from 'cors';
+import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
+import { Server } from 'socket.io';
+import { config } from './config.js';
+import { connectDb } from './db.js';
+import { api } from './routes/api.js';
+import { initEmbedder, embeddingModelName } from './nlp/embedder.js';
+import { loadNer, nerStatus } from './nlp/ml/nerService.js';
+import { trainAssistant } from './nlp/assistant/assistant.js';
+import { ollamaStatus } from './nlp/llm/ollama.js';
+import { loadVocabulary } from './services/vocabulary.js';
+import { indexNeedsRebuild, reindexAll } from './services/search.js';
+import { startChangeStreams } from './services/changeStreams.js';
+import { startScheduler } from './services/followups.js';
+import { processEncounter } from './services/encounters.js';
+import { Encounter } from './models/index.js';
 
-const { Schema, model } = mongoose;
-const ObjectId = Schema.Types.ObjectId;
+const here = path.dirname(fileURLToPath(import.meta.url));
+const clientDist = path.resolve(here, '../../client/dist');
 
-export const ROLES = ['doctor', 'staff', 'admin'];
-export const ENCOUNTER_STATUSES = ['pending', 'needs_review', 'verified'];
-export const FOLLOWUP_STATUSES = ['due', 'completed', 'overdue', 'cancelled'];
+async function main() {
+  await connectDb();
+  console.log(`[db] connected to ${mongoose.connection.name}`);
 
-const userSchema = new Schema({
-  name: { type: String, required: true, trim: true },
-  email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-  passwordHash: { type: String, required: true },
-  role: { type: String, enum: ROLES, required: true },
-  active: { type: Boolean, default: true },
-}, { timestamps: true });
+  await initEmbedder();
+  console.log(`[embed] ${embeddingModelName()}`);
+  loadNer();
+  console.log(`[ner] ${nerStatus().available ? 'model loaded' : 'no trained model yet (run npm run seed)'}`);
+  trainAssistant();
+  await loadVocabulary();
+  ollamaStatus(true).then((s) => console.log(`[ollama] ${s.reachable ? (s.modelAvailable ? `using ${s.model}` : `reachable, but ${s.model} is not pulled`) : 'not reachable; using rules + ML'}`)).catch(() => {});
 
-const patientSchema = new Schema({
-  patientCode: { type: String, required: true, unique: true },
-  name: { type: String, required: true, trim: true },
-  nameLower: { type: String, index: true },
-  dob: { type: Date, required: true },
-  sex: { type: String, enum: ['F', 'M', 'O'], required: true },
-  phoneEnc: { type: String }, // AES-256-GCM, see services/fieldCrypto.js
-  allergies: [{ type: String }],
-  chronicConditions: [{ _id: false, term: String, code: String }],
-  synthetic: { type: Boolean, default: true },
-}, { timestamps: true });
-patientSchema.pre('save', function setLower(next) { this.nameLower = this.name.toLowerCase(); next(); });
+  const app = express();
+  app.use(cors({ origin: config.clientOrigin }));
+  app.use(express.json({ limit: '1mb' }));
+  app.use('/api', api);
+  app.use('/api', (req, res) => res.status(404).json({ error: 'Not found' }));
 
-const encounterSchema = new Schema({
-  patientId: { type: ObjectId, ref: 'Patient', required: true },
-  doctorId: { type: ObjectId, ref: 'User', required: true },
-  visitDate: { type: Date, required: true },
-  rawNote: { type: String, required: true, maxlength: 20000 },
-  status: { type: String, enum: ENCOUNTER_STATUSES, default: 'pending' },
-  extraction: { type: Schema.Types.Mixed, default: null },      // current (verified or proposed) structure
-  modelExtraction: { type: Schema.Types.Mixed, default: null }, // untouched model output, for accuracy tracking
-  corrections: { type: Schema.Types.Mixed, default: null },
-  extractorVersion: String,
-  processingError: String,
-  verifiedBy: { type: ObjectId, ref: 'User' },
-  verifiedAt: Date,
-  review: { type: Schema.Types.Mixed, default: null }, // seconds spent, auto-accept statistics
-}, { timestamps: true });
-encounterSchema.index({ patientId: 1, visitDate: -1 });
-encounterSchema.index({ status: 1, visitDate: -1 });
-encounterSchema.index({ 'extraction.medications.generic': 1, status: 1 });
-encounterSchema.index({ 'extraction.diagnoses.code': 1, status: 1 });
-encounterSchema.index({ visitDate: -1 });
+  if (fs.existsSync(path.join(clientDist, 'index.html'))) {
+    app.use(express.static(clientDist));
+    app.get('*', (req, res) => res.sendFile(path.join(clientDist, 'index.html')));
+  }
 
-const noteChunkSchema = new Schema({
-  encounterId: { type: ObjectId, ref: 'Encounter', required: true, index: true },
-  patientId: { type: ObjectId, ref: 'Patient', required: true },
-  visitDate: { type: Date, required: true },
-  chunkIndex: { type: Number, default: 0 },
-  text: { type: String, required: true },
-  embedding: { type: [Number], required: true },
-  embeddingModel: { type: String, required: true },
-  diagnosisCodes: [String],
+  // eslint-disable-next-line no-unused-vars
+  app.use((err, req, res, next) => {
+    console.error('[api]', err);
+    const status = err.status ?? (err.name === 'ValidationError' || err.name === 'CastError' ? 400 : 500);
+    res.status(status).json({ error: status === 500 ? 'Server error' : err.message });
+  });
+
+  const server = http.createServer(app);
+  const io = new Server(server, { cors: { origin: config.clientOrigin } });
+  io.use((socket, next) => {
+    try {
+      socket.user = jwt.verify(socket.handshake.auth?.token ?? '', config.jwtSecret);
+      next();
+    } catch {
+      next(new Error('unauthorised'));
+    }
+  });
+
+  startChangeStreams(io);
+  startScheduler();
+
+  // Notes saved while the server was down are still pending: process them now.
+  const pending = await Encounter.find({ status: 'pending' }).select('_id').lean();
+  for (const { _id } of pending) await processEncounter(_id).catch((e) => console.error('[extract] failed', e));
+
+  server.listen(config.port, () => console.log(`[api] listening on http://localhost:${config.port}`));
+
+  // Re-embed in the background if the embedding model changed since the last index.
+  if (await indexNeedsRebuild()) {
+    console.log('[search] embedding model changed, re-indexing in the background');
+    reindexAll().then((n) => console.log(`[search] re-indexed ${n} notes`)).catch((e) => console.error('[search] reindex failed', e));
+  }
+}
+
+main().catch((err) => {
+  console.error('[startup] failed:', err);
+  process.exit(1);
 });
-noteChunkSchema.index({ text: 'text' }, { default_language: 'english', name: 'chunk_text' });
-noteChunkSchema.index({ embeddingModel: 1, patientId: 1, visitDate: -1 });
-
-const followupSchema = new Schema({
-  patientId: { type: ObjectId, ref: 'Patient', required: true },
-  sourceEncounterId: { type: ObjectId, ref: 'Encounter', required: true },
-  sourceVisitDate: { type: Date, required: true },
-  dueDate: { type: Date, required: true },
-  reason: String,
-  status: { type: String, enum: FOLLOWUP_STATUSES, default: 'due' },
-  closedByEncounterId: { type: ObjectId, ref: 'Encounter' },
-  closedAt: Date,
-  reminders: [{ _id: false, at: Date, channel: String, note: String, by: { type: ObjectId, ref: 'User' } }],
-}, { timestamps: true });
-followupSchema.index({ status: 1, dueDate: 1 });
-followupSchema.index({ patientId: 1, status: 1 });
-followupSchema.index({ sourceEncounterId: 1 }, { unique: true });
-
-// Time-series collection: created explicitly in db.js
-const auditSchema = new Schema({
-  at: { type: Date, required: true },
-  meta: { userId: ObjectId, role: String, name: String },
-  action: String,
-  target: String,
-  detail: Schema.Types.Mixed,
-}, { timeseries: { timeField: 'at', metaField: 'meta', granularity: 'seconds' }, autoCreate: false, versionKey: false });
-
-const assistantLogSchema = new Schema({
-  userId: { type: ObjectId, ref: 'User' },
-  question: String,
-  intent: String,
-  confidence: Number,
-  slots: Schema.Types.Mixed,
-  route: String,
-  pipeline: String,
-  resultCount: Number,
-  answer: String,
-  rating: { type: Number, enum: [-1, 1, null], default: null },
-  latencyMs: Number,
-}, { timestamps: true });
-assistantLogSchema.index({ createdAt: -1 });
-
-// Vocabulary the clinic has taught the extractor (from doctors' corrections)
-const vocabularySchema = new Schema({
-  type: { type: String, enum: ['drug', 'symptom', 'diagnosis'], required: true },
-  alias: { type: String, required: true, lowercase: true, trim: true },
-  concept: { type: Schema.Types.Mixed, required: true }, // drug {generic, cls, unit} | symptom {term} | diagnosis {term, code}
-  status: { type: String, enum: ['active', 'disabled'], default: 'active' },
-  source: { type: String, enum: ['correction', 'manual'], default: 'correction' },
-  learnedFrom: { type: ObjectId, ref: 'Encounter' },
-  createdBy: { type: ObjectId, ref: 'User' },
-  uses: { type: Number, default: 1 },
-}, { timestamps: true });
-vocabularySchema.index({ type: 1, alias: 1 }, { unique: true });
-
-const groundTruthSchema = new Schema({
-  encounterId: { type: ObjectId, ref: 'Encounter', required: true, unique: true },
-  truth: Schema.Types.Mixed,
-  kind: { type: String, default: 'generated' },
-});
-
-export const User = model('User', userSchema);
-export const Patient = model('Patient', patientSchema);
-export const Encounter = model('Encounter', encounterSchema);
-export const NoteChunk = model('NoteChunk', noteChunkSchema, 'note_chunks');
-export const Followup = model('Followup', followupSchema);
-export const AuditLog = model('AuditLog', auditSchema, 'audit_logs');
-export const AssistantLog = model('AssistantLog', assistantLogSchema, 'assistant_logs');
-export const Vocabulary = model('Vocabulary', vocabularySchema, 'vocabulary');
-export const GroundTruth = model('GroundTruth', groundTruthSchema, 'eval_ground_truth');
